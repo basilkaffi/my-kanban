@@ -20,7 +20,8 @@ export default function CategoryBar(props) {
         {
           showForm ? <div className="cardSize addForm">
             <img src={close} onClick={() => setShow(false)} />
-
+            <input type="text" placeholder="Insert Task Title..." />
+            <input className="addButton" type="submit" value="ADD" />
           </div> : null}
         {
           tasks.map(task => task.category === category ? <TaskCard task = {task}/>: null
