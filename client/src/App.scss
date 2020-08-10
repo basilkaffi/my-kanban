@@ -120,9 +120,10 @@ $third-color: #00adb5;
 img {
   filter: invert(80%);
   cursor: pointer;
+  width: 1rem;
 }
 img:hover {
-  filter: invert(95%);
+  filter: invert(100%);
 }
 
 .cardSize {
@@ -137,7 +138,6 @@ img:hover {
 }
 
 .addForm {
-  height: 8rem;
   img {
     width: 0.8rem;
     margin: 10px;
@@ -159,6 +159,7 @@ img:hover {
     border-radius: 6px;
     width: 95%;
     top: 30%;
+    cursor: pointer;
   }
   .addButton:hover {
     opacity: 0.9;
@@ -172,5 +173,21 @@ img:hover {
   }
   .detail {
     font-size: 0.8rem;
+  }
+  .position {
+    position: relative;
+    float: right;
+    top: 20%;
+    opacity: 0;
+  }
+  .button-container {
+    width: 22%;
+    display: flex;
+    justify-content: space-between;
+  }
+}
+.taskCard:hover {
+  .position {
+    opacity: 1;
   }
 }
