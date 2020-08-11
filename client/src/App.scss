@@ -78,63 +78,6 @@ $third-color: #00adb5;
 
 .AppPage {
   overflow-y: scroll;
-  .header {
-    margin: 1rem 2rem 2.5rem 2rem;
-    display: flex;
-    justify-content: space-between;
-    font-size: 2rem;
-    color: $third-color;
-    font-weight: 500;
-    align-items: center;
-    .logo {
-      display: flex;
-      img {
-        width: 3rem;
-        margin-right: 0.3rem;
-        cursor: default;
-        filter: invert(60%);
-      }
-      .text {
-        cursor: default;
-      }
-    }
-    .dropdown {
-      display: flex;
-      .username {
-        transform: translateX(5.8rem);
-        cursor: pointer;
-        transition: ease 400ms;
-        margin-right: 1rem;
-      }
-      .dropdownContent {
-        opacity: 0;
-        float: right;
-        width: 5rem;
-        height: 2.4rem;
-        border-radius: 7px;
-        transition: ease 300ms;
-        .logout {
-          background-color: #222831e1;
-          color: rgba(255, 255, 255, 0.719);
-          font-weight: 600;
-          border: none;
-        }
-      }
-    }
-    .dropdown:hover {
-      .username {
-        color: #00d3df;
-        transform: translateX(0px);
-      }
-      .dropdownContent {
-        opacity: 1;
-        .logout:hover {
-          background-color: #222831;
-          color: white;
-        }
-      }
-    }
-  }
   .divider {
     width: 75rem;
     display: grid;
@@ -144,6 +87,65 @@ $third-color: #00adb5;
     left: 50%;
     transform: translateX(-50%);
     margin-bottom: 3rem;
+  }
+}
+
+.navbar {
+  margin: 1rem 2rem 2.5rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  font-size: 2rem;
+  color: $third-color;
+  font-weight: 500;
+  align-items: center;
+  overflow-x: hidden;
+  .logo {
+    display: flex;
+    img {
+      width: 3rem;
+      margin-right: 0.3rem;
+      cursor: default;
+      filter: invert(60%);
+    }
+    .text {
+      cursor: default;
+    }
+  }
+  .dropdown {
+    display: flex;
+    transform: translateX(6rem);
+    transition: ease 400ms;
+    .username {
+      cursor: pointer;
+      margin-right: 1rem;
+    }
+    .dropdownContent {
+      opacity: 0;
+      float: right;
+      width: 5rem;
+      height: 2.4rem;
+      border-radius: 7px;
+      transition: ease 600ms;
+      .logout {
+        background-color: #222831e1;
+        color: rgba(255, 255, 255, 0.719);
+        font-weight: 600;
+        border: none;
+      }
+    }
+  }
+  .dropdown:hover {
+    transform: translateX(0px);
+    .username {
+      color: #00d3df;
+    }
+    .dropdownContent {
+      opacity: 1;
+      .logout:hover {
+        background-color: #222831;
+        color: white;
+      }
+    }
   }
 }
 
@@ -159,7 +161,7 @@ $third-color: #00adb5;
     margin: 1rem;
     margin-top: 0.5rem;
     h5 {
-      color: white;
+      color: $third-color;
     }
     img {
       width: 2rem;
@@ -196,14 +198,14 @@ img:hover {
   font-size: 1.2rem;
 }
 
-.addForm {
+.cardForm {
   img {
     width: 0.8rem;
     margin: 10px;
     margin-bottom: 0px;
     float: right;
   }
-  input {
+  input, select {
     background-color: $primary-color;
     color: white;
     width: 92%;
@@ -212,10 +214,10 @@ img:hover {
     left: 50%;
     transform: translateX(-50%);
   }
-  input:focus {
+  input:focus, select:focus {
     outline: none;
   }
-  .addButton {
+  .button {
     background-color: $secondary-color;
     opacity: 0.7;
     border-radius: 6px;
@@ -223,8 +225,17 @@ img:hover {
     top: 30%;
     cursor: pointer;
   }
-  .addButton:hover {
+  .button:hover {
     opacity: 0.9;
+  }
+}
+.Edit {
+  select {
+    margin-top: 0.2rem;
+    margin-bottom: 0.8rem;
+  }
+  .button {
+    top: 0%;
   }
 }
 
