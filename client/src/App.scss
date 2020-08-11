@@ -3,6 +3,7 @@ $secondary-color: #222831;
 $third-color: #00adb5;
 
 .background {
+  overflow: scroll;
   box-sizing: border-box;
   position: fixed;
   height: 100vh;
@@ -13,6 +14,10 @@ $third-color: #00adb5;
   background-attachment: fixed;
   background-repeat: no-repeat;
   background-size: cover;
+  scrollbar-width: none;
+}
+.background::-webkit-scrollbar{
+  display: none;
 }
 
 .EnterPage {
@@ -23,6 +28,7 @@ $third-color: #00adb5;
       position: fixed;
       width: 40%;
       filter: invert(70%) opacity(40%);
+      cursor: default;
     }
     .text {
       position: fixed;
@@ -77,7 +83,6 @@ $third-color: #00adb5;
 }
 
 .AppPage {
-  overflow-y: scroll;
   .divider {
     width: 75rem;
     display: grid;

@@ -3,38 +3,40 @@ import { useState } from "react";
 import logo from "../assets/kanban.png";
 import { Form, Button } from "react-bootstrap";
 import { GoogleLogin } from "react-google-login";
-import { enterApps, enterViaGoogle } from '../store/actions/enterAction';
-import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { enterApps, enterViaGoogle } from "../store/actions/enterAction";
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 function EnterPage() {
   const [enter, setEnter] = useState("register");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const history = useHistory()
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const history = useHistory();
 
   const submitValue = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     let payload = {
       enter: enter,
       data: {
         email: email,
-        password: password
-      }
-    }
-    if(enter === 'register') payload.data.name = name
+        password: password,
+      },
+    };
+    if (enter === "register") payload.data.name = name;
     dispatch(enterApps(payload)).then(() => {
-      history.push('/dashboard')
-    })
+      history.push("/dashboard");
+      console.log("resolve");
+    });
   };
 
   const responseGoogle = (response) => {
     const { id_token } = response.getAuthResponse();
     dispatch(enterViaGoogle(id_token)).then(() => {
-      history.push('/dashboard')
-    })
+      history.push("/dashboard");
+      console.log("resolve");
+    });
   };
 
   return (
@@ -130,8 +132,7 @@ function EnterPage() {
                         onClick={renderProps.onClick}
                         disabled={renderProps.disabled}
                       >
-                        {" "}
-                        Google{" "}
+                        Google
                       </Button>
                     )}
                     buttonText="Login"

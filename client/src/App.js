@@ -11,12 +11,12 @@ function App() {
     <Provider store={ store }>
       <Router>
         <Switch>
-          <Route exact path="/">
-              {localStorage.access_token ? <Redirect to="/dashboard" /> : <EnterPage />}
-          </Route>
-          <Route path="/dashboard">
-              {!localStorage.access_token ? <Redirect to="/" /> : <AppPage />}
-          </Route>
+          <Route exact path="/" render={(props) => 
+            localStorage.access_token ? <Redirect to='/dashboard' /> : <EnterPage />
+          } />
+          <Route path="/dashboard" render={(props) => 
+            !localStorage.access_token ? <Redirect to='/' /> : <AppPage />
+          } />
         </Switch>
       </Router>
     </Provider>

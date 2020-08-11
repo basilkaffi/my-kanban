@@ -47,7 +47,6 @@ export function enterViaGoogle(data) {
       })
       .then(response => {
         const data = response.data
-        console.log(data)
         localStorage.setItem('access_token', data.token)
         localStorage.setItem('username', data.username)
         dispatch({
