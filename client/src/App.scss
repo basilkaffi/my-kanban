@@ -246,19 +246,16 @@ img:hover {
 
 .taskCard {
   padding: 8px;
-  .title {
-    margin-top: 4px;
-  }
+  display: grid;
+  grid-template-rows: 1fr 1fr 4fr 1fr;
   .detail {
     font-size: 0.8rem;
   }
   .button-container {
+    justify-self: flex-end;
     width: 36%;
     display: flex;
     justify-content: space-between;
-    position: relative;
-    float: right;
-    top: 20%;
     opacity: 0;
   }
   .dua {

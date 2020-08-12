@@ -4,6 +4,8 @@ import {
   EDIT_ITEM,
   DELETE_ITEM,
 } from "../actions/constant";
+import io from "socket.io-client";
+const socket = io.connect('https://kanban-h8-server.herokuapp.com')
 
 const initialState = {
   items: [],
@@ -12,9 +14,13 @@ const initialState = {
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_ITEM:
-      return { ...state, items: action.payload };
+      const getItems= { ...state, items: action.payload };
+      socket.emit('updateChange', getItems)
+      return getItems
     case ADD_ITEM:
-      return { ...state, items: state.items.concat(action.payload) };
+      const addItems= { ...state, items: state.items.concat(action.payload) };
+      socket.emit('updateChange', addItems)
+      return addItems
     case EDIT_ITEM:
       let data = { ...state };
       let tasks = data.items;
@@ -23,13 +29,17 @@ const reducer = (state = initialState, action) => {
       const itemIndex = tasks.findIndex(updatedItemId);
       tasks[itemIndex].title = action.payload.title;
       tasks[itemIndex].category = action.payload.category;
-      return {
+      const editItems= {
         ...state,
         items: state.items.filter(unUpdatedItemId).concat(tasks[itemIndex]),
       };
+      socket.emit('updateChange', editItems)
+      return editItems
     case DELETE_ITEM:
       const deletedItemId = (item) => item.id !== action.payload.id;
-      return { ...state, items: state.items.filter(deletedItemId) };
+      const deleteItems= { ...state, items: state.items.filter(deletedItemId) };
+      socket.emit('updateChange', deleteItems)
+      return deleteItems
     default:
       return state;
   }

@@ -51,8 +51,9 @@ export default function TaskCard(props) {
       title: editedTitle,
       category: editedCategory,
     };
-    dispatch(editItem(data))
-    .then(() => setEdit(false))
+    dispatch(editItem(data)).then(() => {
+      setEdit(false);
+    })
   };
 
   const deleteTask = () => {
