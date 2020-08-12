@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import TaskCard from "./TaskCard";
 import addIcon from "../assets/plus.png";
 import close from "../assets/close.png";
@@ -10,7 +10,7 @@ import io from "socket.io-client";
 export default function CategoryBar(props) {
   const socket = io.connect("https://kanban-h8-server.herokuapp.com");
   const category = props.category;
-  const items = useSelector((state) => state.crudReducer.items);
+  const items = props.items
   const [showForm, setShow] = useState(false);
   const [tasks, setTasks] = useState([]);
   const [task, setTask] = useState("");

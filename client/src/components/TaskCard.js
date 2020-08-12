@@ -6,6 +6,7 @@ import nextIcon from "../assets/next.png";
 import editIcon from "../assets/edit.png";
 import close from "../assets/close.png";
 import { editItem, deleteItem } from "../store/actions/crudAction";
+import Swal from "sweetalert2";
 
 export default function TaskCard(props) {
   const task = props.task;
@@ -19,6 +20,54 @@ export default function TaskCard(props) {
   };
   const date = () => {
     return task.createdAt.slice(0, 10);
+  };
+
+  const unauthorizedSwal = () => {
+    Swal.fire({
+      background: "#393e46",
+      width: 400,
+      html: `<div style="color:#00adb5; font-size:1.5rem; font-weight: 500">
+          Unauthorized To Do This Action</div>`,
+      icon: "error",
+      showConfirmButton: false,
+      timer: 1200,
+    });
+  };
+
+  const confirmDelete = (data) => {
+    Swal.fire({
+        icon: 'warning',
+        html: `<div style="color:#00adb5; font-size:1.5rem; font-weight: 500">
+            Are You Sure?</div>`,
+        background: "#393e46",
+        showCancelButton: true,
+        confirmButtonColor: '#222831',
+        cancelButtonColor: '#00adb5',
+        confirmButtonText: 'Yes',
+        cancelButtonText: 'No',
+    }).then((result) => {
+        if (result.value) {
+          dispatch(deleteItem(data))
+        }
+    })
+  }
+
+  const showEditForm = () => {
+    localStorage.username === task.User.name
+      ? setEdit(true)
+      : unauthorizedSwal();
+  };
+
+  const checkAuthorization = (type, data) => {
+    if (localStorage.username === task.User.name) {
+      type === "edit"
+        ? dispatch(editItem(data)).then(() => {
+            setEdit(false);
+          })
+        : confirmDelete(data);
+    } else {
+      unauthorizedSwal();
+    }
   };
 
   const nextCategory = () => {
@@ -42,7 +91,7 @@ export default function TaskCard(props) {
       title: editedTitle,
       category: updateCategory,
     };
-    dispatch(editItem(data));
+    checkAuthorization("edit", data);
   };
 
   const updateTask = () => {
@@ -51,13 +100,11 @@ export default function TaskCard(props) {
       title: editedTitle,
       category: editedCategory,
     };
-    dispatch(editItem(data)).then(() => {
-      setEdit(false);
-    })
+    checkAuthorization("edit", data);
   };
 
   const deleteTask = () => {
-    dispatch(deleteItem(task.id));
+    checkAuthorization("delete", task.id);
   };
 
   return !edit ? (
@@ -68,13 +115,13 @@ export default function TaskCard(props) {
       {task.category !== "completed" ? (
         <div className="button-container">
           <img src={deleteIcon} alt={"delete icon"} onClick={deleteTask} />
-          <img src={editIcon} alt={"edit icon"} onClick={() => setEdit(true)} />
+          <img src={editIcon} alt={"edit icon"} onClick={showEditForm} />
           <img src={nextIcon} alt={"next icon"} onClick={nextCategory} />
         </div>
       ) : (
         <div className="button-container dua">
           <img src={deleteIcon} alt={"delete icon"} onClick={deleteTask} />
-          <img src={editIcon} alt={"edit icon"} onClick={() => setEdit(true)} />
+          <img src={editIcon} alt={"edit icon"} onClick={showEditForm} />
         </div>
       )}
     </div>

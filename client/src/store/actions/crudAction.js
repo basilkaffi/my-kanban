@@ -1,8 +1,18 @@
 import { GET_ITEM, ADD_ITEM, EDIT_ITEM, DELETE_ITEM } from './constant';
 import axios from 'axios';
+import Swal from 'sweetalert2';
+
+const loading = () => {
+    Swal.fire({
+      html: '<div class="loading"></div>',
+      showConfirmButton: false,
+      padding: '0px'
+    })
+}
 
 export function getItem() {
   return dispatch => {
+    loading()
     axios({
       method: 'get',
       url: `https://kanban-h8-server.herokuapp.com/tasks`,
@@ -16,6 +26,7 @@ export function getItem() {
         type: GET_ITEM,
         payload: data
       })
+      Swal.close()
     })
     .catch(error => {
       if (error.response) {
@@ -33,9 +44,9 @@ export function getItem() {
 }
 
 export function addItem(payload) {
-  console.log(payload, "masuk action")
   return dispatch => {
     return new Promise((resolve, reject) => {
+      loading()
       axios({
         method: 'post',
         url: `https://kanban-h8-server.herokuapp.com/tasks`,
@@ -60,6 +71,7 @@ export function addItem(payload) {
           type: ADD_ITEM,
           payload: item
         })
+        Swal.close()
         resolve()
       })
       .catch(error => {
@@ -81,6 +93,7 @@ export function addItem(payload) {
 export function editItem(payload) {
   return dispatch => {
     return new Promise((resolve, reject) => {
+      loading()
       axios({
         method:'PUT',
         url:`https://kanban-h8-server.herokuapp.com/tasks/${payload.id}`,
@@ -101,6 +114,7 @@ export function editItem(payload) {
             category: payload.category
           }
         })
+        Swal.close()
         resolve()
       })
       .catch(error => {
@@ -121,6 +135,7 @@ export function editItem(payload) {
 
 export function deleteItem(payload) {
   return dispatch => {
+    loading()
     axios({
         method:'DELETE',
         url:`https://kanban-h8-server.herokuapp.com/tasks/${payload}`,
@@ -135,6 +150,7 @@ export function deleteItem(payload) {
           id: payload
         }
       })
+      Swal.close()
     })
     .catch(error => {
       if (error.response) {
