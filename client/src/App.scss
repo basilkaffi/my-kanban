@@ -101,7 +101,8 @@ $third-color: #00adb5;
 
 .AppPage {
   .divider {
-    width: 75rem;
+    max-width: 75rem;
+    width: 100vw;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     justify-items: center;
@@ -252,6 +253,9 @@ img:hover {
   }
 }
 .Edit {
+  input {
+    color: $third-color;
+  }
   select {
     margin-top: 0.2rem;
     margin-bottom: 0.8rem;
@@ -267,6 +271,13 @@ img:hover {
   grid-template-rows: 1fr 1fr 4fr 1fr;
   .detail {
     font-size: 0.8rem;
+  }
+  .title {
+    overflow-y: scroll;
+    scrollbar-width: none;
+  }
+  .title::-webkit-scrollbar{
+    display: none;
   }
   .button-container {
     justify-self: flex-end;

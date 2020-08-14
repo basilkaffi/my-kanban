@@ -1,123 +1,171 @@
-import { GET_ITEM, ADD_ITEM, EDIT_ITEM, DELETE_ITEM } from './constant';
-import axios from 'axios';
-import Swal from 'sweetalert2';
+import { GET_ITEM, ADD_ITEM, EDIT_ITEM, DELETE_ITEM } from "./constant";
+import axios from "axios";
+import Swal from "sweetalert2";
 
 const loading = () => {
-    Swal.fire({
-      html: '<div class="loading"></div>',
-      showConfirmButton: false,
-      padding: '0px'
-    })
-}
+  Swal.fire({
+    html: '<div class="loading"></div>',
+    showConfirmButton: false,
+    padding: "0px",
+  });
+};
+const errorMessage = (message) => {
+  Swal.fire({
+    background: "#393e46",
+    width: 400,
+    html: `<div style="color:#00adb5; font-size:1.5rem; font-weight: 500">
+        ${message}</div>`,
+    icon: "error",
+    showConfirmButton: false,
+    timer: 1200,
+  });
+};
 
 export function getItem() {
-  return dispatch => {
-    loading()
+  return (dispatch) => {
+    loading();
     axios({
-      method: 'get',
+      method: "get",
       url: `https://kanban-h8-server.herokuapp.com/tasks`,
       headers: {
-        access_token: localStorage.access_token
-      }
+        access_token: localStorage.access_token,
+      },
     })
-    .then(response => {
-      const data = response.data
-      dispatch({
-        type: GET_ITEM,
-        payload: data
+      .then((response) => {
+        const data = response.data;
+        dispatch({
+          type: GET_ITEM,
+          payload: data,
+        });
+        Swal.close();
       })
-      Swal.close()
-    })
-    .catch(error => {
-      if (error.response) {
-        console.log(error.response.data);
-        console.log(error.response.status);
-        console.log(error.response.headers);
-      } else if (error.request) {
-        console.log(error.request);
-      } else {
-        console.log("Error", error.message);
-      }
-      console.log(error.config);
-    })
-  }
+      .catch((error) => {
+        if (error.response) {
+          console.log(error.response.data);
+          console.log(error.response.status);
+          console.log(error.response.headers);
+        } else if (error.request) {
+          console.log(error.request);
+        } else {
+          console.log("Error", error.message);
+        }
+        console.log(error.config);
+      });
+  };
 }
 
 export function addItem(payload) {
-  return dispatch => {
+  return (dispatch) => {
     return new Promise((resolve, reject) => {
-      loading()
+      loading();
       axios({
-        method: 'post',
+        method: "post",
         url: `https://kanban-h8-server.herokuapp.com/tasks`,
         headers: {
-          access_token: localStorage.access_token
+          access_token: localStorage.access_token,
         },
-        data: payload
+        data: payload,
       })
-      .then(response => {
-        const { data } = response
-        const item = {
-          id: data.id,
-          title: data.title,
-          category: data.category,
-          createdAt: data.createdAt,
-          User: {
-              name: localStorage.username
-          }
-        }
-        console.log(item, "resolve axios")
-        dispatch({
-          type: ADD_ITEM,
-          payload: item
+        .then((response) => {
+          const { data } = response;
+          const item = {
+            id: data.id,
+            title: data.title,
+            category: data.category,
+            createdAt: data.createdAt,
+            User: {
+              name: localStorage.username,
+            },
+          };
+          console.log(item, "resolve axios");
+          dispatch({
+            type: ADD_ITEM,
+            payload: item,
+          });
+          Swal.close();
+          resolve();
         })
-        Swal.close()
-        resolve()
-      })
-      .catch(error => {
-        if (error.response) {
-          console.log(error.response.data);
-          console.log(error.response.status);
-          console.log(error.response.headers);
-        } else if (error.request) {
-          console.log(error.request);
-        } else {
-          console.log("Error", error.message);
-        }
-        console.log(error.config);
-      })
-    })
-  }
+        .catch((error) => {
+          if (error.response) {
+            console.log(error.response.data);
+            console.log(error.response.status);
+            console.log(error.response.headers);
+          } else if (error.request) {
+            console.log(error.request);
+          } else {
+            console.log("Error", error.message);
+          }
+          console.log(error.config);
+          errorMessage('Create Task Failed');
+        });
+    });
+  };
 }
 
 export function editItem(payload) {
-  return dispatch => {
+  return (dispatch) => {
     return new Promise((resolve, reject) => {
-      loading()
+      loading();
       axios({
-        method:'PUT',
-        url:`https://kanban-h8-server.herokuapp.com/tasks/${payload.id}`,
+        method: "PUT",
+        url: `https://kanban-h8-server.herokuapp.com/tasks/${payload.id}`,
         headers: {
-            access_token: localStorage.access_token
+          access_token: localStorage.access_token,
         },
         data: {
           title: payload.title,
-          category: payload.category
-        }
+          category: payload.category,
+        },
       })
-      .then(response => {
-        dispatch({
-          type: EDIT_ITEM,
-          payload: {
-            id: payload.id,
-            title: payload.title,
-            category: payload.category
-          }
+        .then((response) => {
+          dispatch({
+            type: EDIT_ITEM,
+            payload: {
+              id: payload.id,
+              title: payload.title,
+              category: payload.category,
+            },
+          });
+          Swal.close();
+          resolve();
         })
-        Swal.close()
-        resolve()
+        .catch((error) => {
+          if (error.response) {
+            console.log(error.response.data);
+            console.log(error.response.status);
+            console.log(error.response.headers);
+          } else if (error.request) {
+            console.log(error.request);
+          } else {
+            console.log("Error", error.message);
+          }
+          console.log(error.config);
+          errorMessage('Edit Task Failed');
+        });
+    });
+  };
+}
+
+export function deleteItem(payload) {
+  return (dispatch) => {
+    loading();
+    axios({
+      method: "DELETE",
+      url: `https://kanban-h8-server.herokuapp.com/tasks/${payload}`,
+      headers: {
+        access_token: localStorage.getItem("access_token"),
+      },
+    })
+      .then((response) => {
+        dispatch({
+          type: DELETE_ITEM,
+          payload: {
+            id: payload,
+          },
+        });
+        Swal.close();
       })
-      .catch(error => {
+      .catch((error) => {
         if (error.response) {
           console.log(error.response.data);
           console.log(error.response.status);
@@ -128,41 +176,7 @@ export function editItem(payload) {
           console.log("Error", error.message);
         }
         console.log(error.config);
-      })
-    })
-  }
-}
-
-export function deleteItem(payload) {
-  return dispatch => {
-    loading()
-    axios({
-        method:'DELETE',
-        url:`https://kanban-h8-server.herokuapp.com/tasks/${payload}`,
-        headers: {
-            access_token: localStorage.getItem('access_token')
-        }
-    })
-    .then(response => {
-      dispatch({
-        type: DELETE_ITEM,
-        payload: {
-          id: payload
-        }
-      })
-      Swal.close()
-    })
-    .catch(error => {
-      if (error.response) {
-        console.log(error.response.data);
-        console.log(error.response.status);
-        console.log(error.response.headers);
-      } else if (error.request) {
-        console.log(error.request);
-      } else {
-        console.log("Error", error.message);
-      }
-      console.log(error.config);
-    })
-  }
+        errorMessage('Delete Task Failed');
+      });
+  };
 }

@@ -37,6 +37,7 @@ export default function TaskCard(props) {
   const confirmDelete = (data) => {
     Swal.fire({
         icon: 'warning',
+        width: 400,
         html: `<div style="color:#00adb5; font-size:1.5rem; font-weight: 500">
             Are You Sure?</div>`,
         background: "#393e46",
@@ -130,7 +131,7 @@ export default function TaskCard(props) {
       <img src={close} alt={"close icon"} onClick={() => setEdit(false)} />
       <input
         type="text"
-        placeholder="Edit title here..."
+        value={editedTitle}
         onChange={(e) => setEditedTitle(e.target.value)}
       />
       <select onChange={(e) => setEditedCategory(e.target.value)}>
